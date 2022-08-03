@@ -19,7 +19,8 @@ router.post(
 );
 
 // [GET] -> /v1/blog/post
-router.get("/posts", blogController.getAllBlogPost);
+//			 -> /v1/blog/post?page=1&perPage=5
+router.get("/posts", blogController.getBlogPost);
 
 // [GET] -> /v1/blog/post/{id}
 router.get("/post/:postId", blogController.getBlogPostById);

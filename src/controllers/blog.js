@@ -50,15 +50,30 @@ exports.createBlogPost = (req, res, next) => {
 		});
 };
 
-exports.getAllBlogPost = (req, res, next) =>
+exports.getBlogPost = (req, res, next) => {
+	const currentPage = parseInt(req.query.page) || 1;
+	const perPage = parseInt(req.query.perPage) || 5;
+	let totalItems;
+
 	BlogPost.find()
+		.countDocuments()
+		.then((count) => {
+			totalItems = count;
+			return BlogPost.find()
+				.skip((currentPage - 1) * perPage)
+				.limit(perPage);
+		})
 		.then((result) => {
 			res.status(200).json({
 				message: "Data Blog Post Berhasil dipanggil",
 				data: result,
+				total_data: totalItems,
+				per_page: perPage,
+				current_Page: currentPage,
 			});
 		})
 		.catch((err) => next(err));
+};
 
 exports.getBlogPostById = (req, res, next) => {
 	const id = req.params.postId;
@@ -110,6 +125,7 @@ exports.updateBlogPost = (req, res, next) => {
 			}
 
 			post.title = title;
+
 			post.body = body;
 			post.image = image;
 			return post.save();
