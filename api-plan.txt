@@ -1,0 +1,107 @@
+Standar API
+
+{root.api}/{version}/{grouping}/{endpoint}
+SAMPLE : http://api.lmao.com/v1/auth/register
+
+Standar Status Response
+
+200 - OK                    --> Call API Success.
+201 - CREATED               --> Post Success.
+400 - BAD REQUEST           --> Error on Client Side (Bisa input yang salah dll).
+401 - UNAUTHORIZED          --> User not authorized to the request.
+403 - FORBIDDEN             --> User Not Allowed to access.
+404 - NOT FOUND             --> Request End Point Not Found.
+500 - INTERNAL SERVER ERROR --> Error on Server Side.
+502 - BAD GATEYAW           --> Invalid Response From Another Request
+
+GROUP : Authentication {auth}
+
+[1] - Register
+using curl
+cpost 127.0.0.1:8080/v1/auth/register -H 'Content-Type: application/json' -d '{"name":"Yusril A", "email":"yusri@gmail.com", "password":"123456"}'
+{root.api}/{version}/auth/register
+
+req:
+{
+  "name" : "Testing",
+  "email" : "test.gmail.com",
+  "password": "123456",
+}
+
+res:
+{
+  "message": "Register Successfully",
+  "data" : {
+    "name" : "Testing",
+    "email" : "test.gmail.com",
+    "password": "123456",
+  }
+}
+
+err-res:
+201 -> Regristrasi Berhasil
+400 -> Input yang anda masukan tidak valid
+
+[2] - Login
+using curl
+cpost 127.0.0.1:8080/v1/auth/login -H 'Content-Type: application/json' -d '{"email":"yusril@gmail.com", "password":"1213113"}'
+{root.api}/{version}/auth/login
+
+req :
+{
+  "email" : "test.gmail.com",
+  "password": "123456",
+}
+
+GROUP : blog
+
+[1] - Create Blog Post
+cpost 127.0.0.1:8080/v1/blog/post -H 'Content-Type: application/json' -d '{"title":"Title Blog Post 2", "body": "Lorem Ipsum dolor sit amet"}'
+[POST] : {root.api}/{version}/blog/post
+
+req:
+{
+  "title": "Title Blog",
+  "image": "imagefile.png",
+  "body": "Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat."
+}
+
+res:
+{
+  "message": "Create Blog Post Success",
+  "data": {
+    "post_id": 1,
+    "image": "imagefile.png",
+    "title": "Blog post",
+    "body": "Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.",
+    "created_at": "12/06/2020",
+    "author": {
+      "uid": 1,
+      "name": "Testing"
+    }
+  }
+}
+
+err-res:
+201 -> Blog Post Berhasil Dibuat
+400 -> Input yang anda masukan tidak valid
+
+[2] - Get Blog Post
+[GET] : {root.api}/{version}/blog/posts
+curl 127.0.0.1:8080/v1/blog/posts
+
+res:
+{
+  "message": 'Data Blog Post Berhasil dipanggil',
+  "data": result,
+}
+
+err-res:
+200 -> Blog Post Berhasil Dikirim
+400 -> error
+
+[3] - Update Blog Post
+[4] - Delete Blog Post
+
+
+
